@@ -1,0 +1,31 @@
+{
+  "manifest_version": 3,
+  "name": "QuickFill",
+  "version": "1.0",
+  "description": "Securely stores login credentials and autofills them with one click.",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting",
+    "alarms"
+  ],
+  "icons": {
+    "16": "images/icon.png",
+    "32": "images/icon.png",
+    "48": "images/icon.png",
+    "128": "images/icon.png"
+  },
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_title": "QuickFill",
+    "default_icon": {
+      "16": "images/icon.png",
+      "32": "images/icon.png",
+      "48": "images/icon.png",
+      "128": "images/icon.png"
+    }
+  },
+  "background": {
+    "service_worker": "background/background.js"
+  }
+}

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>QuickFill</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <!-- App Container -->
+  <div id="app">
+    <button id="lock-btn" class="icon-btn hidden" aria-label="Lock Vault" style="position: absolute; top: 12px; right: 12px; z-index: 50;">🔒</button>
+    <!-- Header -->
+    <header>
+      <div class="header-title" style="display: flex; align-items: center; gap: 8px;">
+        <img src="../images/icon.png" alt="QuickFill Icon" style="width: 24px; height: 24px;" />
+        <h1>QuickFill</h1>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main>
+      <!-- View: Setup Master Password -->
+      <section id="view-setup" class="view hidden">
+        <h2>Setup</h2>
+        <p>Create a master password to secure your vault.</p>
+        <input type="password" id="setup-password" placeholder="Master Password" />
+        <input type="password" id="setup-password-confirm" placeholder="Confirm Password" />
+        <button id="setup-btn" class="primary-btn">Create Vault</button>
+        <div id="setup-error" class="error-msg hidden"></div>
+      </section>
+
+      <!-- View: Unlock Vault -->
+      <section id="view-unlock" class="view hidden">
+        <h2>Unlock Vault</h2>
+        <input type="password" id="unlock-password" placeholder="Master Password" />
+        <button id="unlock-btn" class="primary-btn">Unlock</button>
+        <div id="unlock-error" class="error-msg hidden"></div>
+      </section>
+
+      <!-- View: Site List -->
+      <section id="view-list" class="view">
+        <div class="list-actions">
+          <input type="text" id="search-input" placeholder="Search sites..." />
+          <button id="show-add-btn" class="secondary-btn">+ Add</button>
+        </div>
+        <ul id="site-list" class="site-list">
+          <!-- Dummy item for UI visualization -->
+          <li class="site-item">
+            <div class="site-icon" style="background-color: #ccc;"></div>
+            <div class="site-info">
+              <span class="site-name">Example Site</span>
+              <span class="site-domain">example.com</span>
+            </div>
+            <div class="site-actions">
+              <button>Edit</button>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <!-- View: Add/Edit Site -->
+      <section id="view-edit" class="view hidden">
+        <h2 id="edit-title">Add Site</h2>
+        <input type="hidden" id="edit-id" />
+        <input type="text" id="edit-name" placeholder="Site Name (e.g. GitHub)" />
+        <input type="text" id="edit-url" placeholder="Domain (e.g. github.com)" />
+        <input type="text" id="edit-username" placeholder="Email / Username" />
+        <input type="password" id="edit-password" placeholder="Password" />
+        
+        <div class="edit-actions">
+          <button id="cancel-edit-btn" class="secondary-btn">Cancel</button>
+          <button id="save-site-btn" class="primary-btn">Save</button>
+        </div>
+        <div id="edit-error" class="error-msg hidden"></div>
+      </section>
+    </main>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast hidden"></div>
+  </div>
+
+  <script src="../lib/crypto.js"></script>
+  <script src="../lib/storage.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
