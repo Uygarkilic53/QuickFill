@@ -1,7 +1,6 @@
 // background.js
 
-const LOCK_ALARM_NAME = "lock_vault_alarm";
-const INACTIVITY_MINUTES = 15;
+importScripts('../lib/crypto.js', '../lib/storage.js');
 
 chrome.runtime.onInstalled.addListener(() => {
   console.log("QuickFill Extension Installed");
@@ -9,11 +8,9 @@ chrome.runtime.onInstalled.addListener(() => {
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === "vault_unlocked") {
-    // Start or restart the auto-lock timer
-    chrome.alarms.create(LOCK_ALARM_NAME, { delayInMinutes: INACTIVITY_MINUTES });
-    sendResponse({ status: "timer_started" });
+    // Session vault is unlocked, no auto-lock timer needed.
+    sendResponse({ status: "unlocked" });
   } else if (message.action === "vault_locked") {
-    chrome.alarms.clear(LOCK_ALARM_NAME);
     chrome.storage.session.remove("vaultKey");
     sendResponse({ status: "locked" });
   } else if (message.action === "fill_credentials") {
@@ -49,12 +46,48 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       }
     });
     return true; // async response
-  }
-});
+  } else if (message.action === "request_autofill") {
+    (async () => {
+      try {
+        // Check if vault is unlocked
+        const exportedKey = await StorageUtil.getSession('vaultKey');
+        if (!exportedKey) {
+          sendResponse({ success: false });
+          return;
+        }
 
-chrome.alarms.onAlarm.addListener((alarm) => {
-  if (alarm.name === LOCK_ALARM_NAME) {
-    console.log("Auto-locking vault due to inactivity.");
-    chrome.storage.session.remove("vaultKey");
+        // Load vault
+        const key = await CryptoUtil.importKey(exportedKey);
+        const vaultData = await StorageUtil.get('vaultData');
+        if (!vaultData || !vaultData.ciphertext) {
+          sendResponse({ success: false });
+          return;
+        }
+
+        const vault = await CryptoUtil.decrypt(vaultData.ciphertext, vaultData.iv, key);
+        
+        // Find match for domain that has autoFill enabled
+        const domain = message.domain;
+        const match = vault.find(site => {
+          if (!site.autoFill) return false;
+          try {
+            const siteUrl = site.url.startsWith('http') ? site.url : `https://${site.url}`;
+            return new URL(siteUrl).hostname.includes(domain) || domain.includes(new URL(siteUrl).hostname);
+          } catch(e) {
+            return false;
+          }
+        });
+
+        if (match) {
+          sendResponse({ success: true, credentials: { username: match.username, password: match.password } });
+        } else {
+          sendResponse({ success: false });
+        }
+      } catch (e) {
+        console.error("Auto-fill request failed:", e);
+        sendResponse({ success: false });
+      }
+    })();
+    return true; // async response
   }
 });
