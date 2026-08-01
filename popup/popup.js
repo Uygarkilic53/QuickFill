@@ -152,28 +152,76 @@ document.addEventListener('DOMContentLoaded', async () => {
           <span class="site-domain">${escapeHTML(site.username)}</span>
         </div>
         <div class="site-actions">
-          <button class="fill-btn" data-id="${site.id}" title="Fill credentials">Fill</button>
-          <button class="edit-btn" data-id="${site.id}" title="Edit">Edit</button>
-          <button class="delete-btn" data-id="${site.id}" title="Delete">Del</button>
+          <div style="display: flex; align-items: center; margin-right: 8px; gap: 4px;" title="Enable auto-fill for this site">
+            <label class="switch" style="transform: scale(0.7);">
+              <input type="checkbox" class="site-autofill-toggle" data-id="${site.id}" ${site.autoFill ? 'checked' : ''}>
+              <span class="slider round"></span>
+            </label>
+          </div>
+          <button class="fill-btn icon-text-btn" data-id="${site.id}" title="Fill credentials">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-zap"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          </button>
+          <button class="edit-btn icon-text-btn" data-id="${site.id}" title="Edit">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
+          </button>
+          <button class="delete-btn icon-text-btn" data-id="${site.id}" title="Delete">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash-2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
+          </button>
         </div>
       `;
       listEl.appendChild(li);
     });
 
     // Attach events
+    document.querySelectorAll('.site-autofill-toggle').forEach(toggle => {
+      toggle.addEventListener('change', async (e) => {
+        const id = e.target.getAttribute('data-id');
+        const isChecked = e.target.checked;
+        const siteIndex = currentVault.findIndex(s => s.id === id);
+        if (siteIndex === -1) return;
+        
+        const site = currentVault[siteIndex];
+        
+        // If enabling, disable it for all other accounts with the exact same domain
+        if (isChecked) {
+          try {
+            const domain = new URL(site.url.startsWith('http') ? site.url : `https://${site.url}`).hostname;
+            currentVault.forEach(s => {
+              if (s.id !== id) {
+                try {
+                  const sDomain = new URL(s.url.startsWith('http') ? s.url : `https://${s.url}`).hostname;
+                  if (sDomain === domain) {
+                    s.autoFill = false;
+                  }
+                } catch(err) {}
+              }
+            });
+          } catch(err) {}
+        }
+        
+        currentVault[siteIndex].autoFill = isChecked;
+        await saveVault(currentVault);
+        
+        if (isChecked) {
+          // Re-render to show only one toggle is active for the domain
+          await renderSiteList(searchInput.value);
+        }
+        showToast(isChecked ? "Auto-fill enabled for site" : "Auto-fill disabled");
+      });
+    });
     document.querySelectorAll('.fill-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => fillSite(e.target.getAttribute('data-id')));
+      btn.addEventListener('click', (e) => fillSite(e.currentTarget.getAttribute('data-id')));
     });
     document.querySelectorAll('.edit-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
-        editSite(e.target.getAttribute('data-id'));
+        editSite(e.currentTarget.getAttribute('data-id'));
       });
     });
     document.querySelectorAll('.delete-btn').forEach(btn => {
       btn.addEventListener('click', async (e) => {
         e.stopPropagation();
-        const id = e.target.getAttribute('data-id');
+        const id = e.currentTarget.getAttribute('data-id');
         if (confirm("Delete this credential?")) {
           currentVault = currentVault.filter(s => s.id !== id);
           await saveVault(currentVault);
@@ -217,7 +265,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     showView('edit');
   }
 
-  // --- Search ---
+  // --- Search & Toggle ---
   searchInput.addEventListener('input', (e) => {
     renderSiteList(e.target.value);
   });
@@ -360,7 +408,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       name,
       url,
       username,
-      password
+      password,
+      autoFill: id ? (currentVault.find(s => s.id === id)?.autoFill || false) : false
     };
 
     if (id) {

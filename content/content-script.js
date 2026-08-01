@@ -91,4 +91,51 @@ if (!window.quickFillInjected) {
   function isVisible(elem) {
     return !!(elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length);
   }
+
+  // Auto-fill observer logic
+  let lastAttemptedUrl = window.location.href;
+  let hasAttemptedOnCurrentUrl = false;
+
+  function checkForLoginForms() {
+    if (window.location.href !== lastAttemptedUrl) {
+      lastAttemptedUrl = window.location.href;
+      hasAttemptedOnCurrentUrl = false;
+    }
+
+    if (hasAttemptedOnCurrentUrl) return;
+    
+    const allInputs = Array.from(document.querySelectorAll('input'));
+    const passwordField = allInputs.find(input => input.type === 'password' && isVisible(input));
+    
+    if (passwordField && !passwordField.value) {
+      hasAttemptedOnCurrentUrl = true;
+      
+      chrome.runtime.sendMessage({ action: "request_autofill", domain: window.location.hostname }, (response) => {
+        if (response && response.success && response.credentials) {
+          fillFields(response.credentials);
+        }
+      });
+    }
+  }
+
+  // Initial check on load
+  setTimeout(checkForLoginForms, 500);
+
+  // Watch for dynamic forms (SPAs)
+  const observer = new MutationObserver((mutations) => {
+    // Only run if we haven't attempted or if URL changed
+    if (!hasAttemptedOnCurrentUrl || window.location.href !== lastAttemptedUrl) {
+      // Debounce slightly to avoid checking on every tiny DOM mutation
+      clearTimeout(window.quickFillTimeout);
+      window.quickFillTimeout = setTimeout(checkForLoginForms, 300);
+    }
+  });
+
+  if (document.body) {
+    observer.observe(document.body, { childList: true, subtree: true });
+  } else {
+    document.addEventListener('DOMContentLoaded', () => {
+      observer.observe(document.body, { childList: true, subtree: true });
+    });
+  }
 }
