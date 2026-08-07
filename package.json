@@ -1,0 +1,31 @@
+{
+  "name": "signinautomation",
+  "version": "1.0.0",
+  "description": "QuickFill is a fast, lightweight, and highly secure password manager and form autofill Chrome extension built using 100% Vanilla HTML, CSS, and JavaScript.",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Uygarkilic53/signinautomation.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Uygarkilic53/signinautomation/issues"
+  },
+  "homepage": "https://github.com/Uygarkilic53/signinautomation#readme",
+  "devDependencies": {
+    "@tailwindcss/container-queries": "^0.1.1",
+    "@tailwindcss/forms": "^0.5.11",
+    "autoprefixer": "^10.5.4",
+    "postcss": "^8.5.26",
+    "tailwindcss": "^3.4.19"
+  }
+}

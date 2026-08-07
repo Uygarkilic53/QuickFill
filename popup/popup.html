@@ -1,90 +1,165 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="dark" lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
   <title>QuickFill</title>
-  <link rel="stylesheet" href="popup.css">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Courier+Prime&display=swap" rel="stylesheet"/>
+  <link href="popup.css" rel="stylesheet"/>
 </head>
-<body>
-  <!-- App Container -->
-  <div id="app">
-    <button id="lock-btn" class="icon-btn hidden" aria-label="Lock Vault" style="position: absolute; top: 12px; right: 12px; z-index: 50;">
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-lock"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-    </button>
-    <!-- Header -->
-    <header>
-      <div class="header-title" style="display: flex; align-items: center; gap: 8px;">
-        <img src="../images/icon.png" alt="QuickFill Icon" style="width: 24px; height: 24px;" />
-        <h1>QuickFill</h1>
+<body class="flex flex-col antialiased selection:bg-primary-container selection:text-on-primary-container">
+
+  <!-- Ambient Background -->
+  <div class="ambient-bg"></div>
+
+  <!-- App Container (Matches the body constraints from input.css) -->
+  <div id="app" class="relative w-full h-full flex flex-col z-10 overflow-hidden">
+    
+    <!-- TopAppBar -->
+    <header class="fixed top-0 w-full h-[48px] bg-surface/60 backdrop-blur-xl border-b border-outline-variant/20 shadow-sm flex justify-between items-center px-lg z-50">
+      <div class="flex items-center gap-sm">
+        <img src="../images/icon.png" alt="QuickFill Icon" class="w-6 h-6 object-contain" />
+        <span class="font-display-md text-display-md font-bold text-primary tracking-tight">QuickFill</span>
+      </div>
+      <div>
+        <button id="lock-btn" class="hover:bg-primary/10 transition-colors active:scale-95 duration-150 p-xs rounded-full flex items-center justify-center text-on-surface-variant hidden">
+          <span class="material-symbols-outlined" data-icon="lock" style="font-variation-settings: 'FILL' 0;">lock</span>
+        </button>
       </div>
     </header>
 
-    <!-- Main Content Area -->
-    <main>
+    <main class="flex-1 mt-[48px] overflow-y-auto px-lg py-md flex flex-col gap-md relative custom-scrollbar">
+      
       <!-- View: Setup Master Password -->
-      <section id="view-setup" class="view hidden">
-        <h2>Setup</h2>
-        <p>Create a master password to secure your vault.</p>
-        <input type="password" id="setup-password" placeholder="Master Password" />
-        <input type="password" id="setup-password-confirm" placeholder="Confirm Password" />
-        <button id="setup-btn" class="primary-btn">Create Vault</button>
-        <div id="setup-error" class="error-msg hidden"></div>
+      <section id="view-setup" class="view hidden flex flex-col h-full justify-center">
+        <div class="mb-xl mt-sm text-center">
+          <h2 class="font-display-md text-display-md text-on-surface mb-xs">Setup</h2>
+          <p class="font-body-small text-body-small text-on-surface-variant">Create a master password to secure your vault.</p>
+        </div>
+        <form id="setup-form" class="flex flex-col gap-md" onsubmit="return false;">
+          <div class="glass-panel rounded-lg p-[1px] relative">
+            <div class="bg-surface/10 rounded-lg p-sm input-halo transition-all duration-200 border border-transparent">
+              <label class="block font-label-caps text-label-caps text-primary mb-[2px] uppercase">Master Password</label>
+              <div class="flex items-center">
+                <input id="setup-password" class="w-full bg-transparent text-on-surface font-body-base text-body-base border-none p-0 focus:ring-0 placeholder-on-surface-variant/50" placeholder="••••••••" required="" type="password"/>
+              </div>
+            </div>
+          </div>
+          <div class="glass-panel rounded-lg p-[1px] relative">
+            <div class="bg-surface/10 rounded-lg p-sm input-halo transition-all duration-200 border border-transparent">
+              <label class="block font-label-caps text-label-caps text-primary mb-[2px] uppercase">Confirm Password</label>
+              <div class="flex items-center">
+                <input id="setup-password-confirm" class="w-full bg-transparent text-on-surface font-body-base text-body-base border-none p-0 focus:ring-0 placeholder-on-surface-variant/50" placeholder="••••••••" required="" type="password"/>
+              </div>
+            </div>
+          </div>
+          <button id="setup-btn" class="mt-xl w-full bg-[#3B82F6] hover:bg-blue-400 text-white font-headline-sm text-headline-sm py-md rounded-lg btn-primary-glow transition-all duration-200 active:scale-[0.98]" type="button">
+            Create Vault
+          </button>
+          <div id="setup-error" class="text-error text-center text-body-small hidden"></div>
+        </form>
       </section>
 
       <!-- View: Unlock Vault -->
-      <section id="view-unlock" class="view hidden">
-        <h2>Unlock Vault</h2>
-        <input type="password" id="unlock-password" placeholder="Master Password" />
-        <button id="unlock-btn" class="primary-btn">Unlock</button>
-        <div id="unlock-error" class="error-msg hidden"></div>
+      <section id="view-unlock" class="view hidden flex flex-col h-full justify-center items-center relative">
+        <div class="mb-xl flex flex-col items-center">
+          <div class="w-16 h-16 rounded-full border border-primary/30 flex items-center justify-center mb-md glass-panel overflow-hidden">
+            <span class="material-symbols-outlined text-primary text-3xl" data-icon="person">person</span>
+          </div>
+          <h1 class="font-headline-sm text-headline-sm text-on-surface text-center mb-xs">Welcome Back</h1>
+        </div>
+        <div class="w-full glass-panel rounded-xl p-lg flex flex-col gap-lg">
+          <h2 class="font-headline-sm text-headline-sm text-on-surface text-center">Unlock Vault</h2>
+          <div class="flex flex-col gap-xs relative group">
+            <label class="font-label-caps text-label-caps text-on-surface-variant absolute -top-2 left-3 bg-surface px-1 z-10" for="unlock-password">Master Password</label>
+            <div class="relative w-full input-glow transition-all duration-200 rounded-lg border border-outline-variant/30 bg-surface-container/10">
+              <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm pointer-events-none" data-icon="key">key</span>
+              <input id="unlock-password" class="w-full bg-transparent border-none text-on-surface font-body-mono text-body-mono pl-10 pr-10 py-sm rounded-lg focus:ring-0 placeholder:text-outline/50" placeholder="••••••••••••" type="password"/>
+            </div>
+          </div>
+          <button id="unlock-btn" class="w-full bg-[#3B82F6] text-white font-headline-sm text-headline-sm py-sm rounded-lg glow-primary hover:bg-[#2563EB] transition-colors active:scale-95 duration-150 flex justify-center items-center gap-sm mt-sm">
+            Unlock <span class="material-symbols-outlined text-sm" data-icon="lock_open">lock_open</span>
+          </button>
+          <div id="unlock-error" class="text-error text-center text-body-small hidden"></div>
+        </div>
       </section>
 
       <!-- View: Site List -->
-      <section id="view-list" class="view">
-        <div class="list-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-          <h2 style="margin: 0; font-size: 1.1rem;">My Vault</h2>
-        </div>
-        <div class="list-actions">
-          <input type="text" id="search-input" placeholder="Search sites..." />
-          <button id="show-add-btn" class="secondary-btn icon-text-btn">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
-            Add
+      <section id="view-list" class="view hidden pb-16">
+        <div class="flex items-center gap-sm mb-md">
+          <div class="relative flex-1">
+            <span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">search</span>
+            <input id="search-input" class="w-full glass-input rounded-lg py-xs pl-[32px] pr-sm font-body-base text-body-base placeholder:text-outline h-[32px]" placeholder="Search sites..." type="text"/>
+          </div>
+          <button id="show-add-btn" class="w-[32px] h-[32px] flex items-center justify-center rounded-lg bg-primary/20 text-primary border border-primary/30 hover:bg-primary/30 transition-colors shadow-[0_0_12px_rgba(173,198,255,0.2)]">
+            <span class="material-symbols-outlined text-[20px]">add</span>
           </button>
         </div>
-        <ul id="site-list" class="site-list">
-          <!-- Dummy item for UI visualization -->
-          <li class="site-item">
-            <div class="site-icon" style="background-color: #ccc;"></div>
-            <div class="site-info">
-              <span class="site-name">Example Site</span>
-              <span class="site-domain">example.com</span>
-            </div>
-            <div class="site-actions">
-              <button>Edit</button>
-            </div>
-          </li>
+        <ul id="site-list" class="flex flex-col gap-md">
+          <!-- Sites will be populated here -->
         </ul>
       </section>
 
       <!-- View: Add/Edit Site -->
-      <section id="view-edit" class="view hidden">
-        <h2 id="edit-title">Add Site</h2>
-        <input type="hidden" id="edit-id" />
-        <input type="text" id="edit-name" placeholder="Site Name (e.g. GitHub)" />
-        <input type="text" id="edit-url" placeholder="Domain (e.g. github.com)" />
-        <input type="text" id="edit-username" placeholder="Email / Username" />
-        <input type="password" id="edit-password" placeholder="Password" />
-        
-        <div class="edit-actions">
-          <button id="cancel-edit-btn" class="secondary-btn">Cancel</button>
-          <button id="save-site-btn" class="primary-btn">Save</button>
+      <section id="view-edit" class="view hidden pb-16">
+        <div class="mb-md text-center">
+          <h2 id="edit-title" class="font-display-md text-display-md text-on-surface mb-xs">Add Site</h2>
         </div>
-        <div id="edit-error" class="error-msg hidden"></div>
+        <input type="hidden" id="edit-id" />
+        <div class="flex flex-col gap-md">
+          
+          <div class="glass-panel rounded-lg p-[1px]">
+            <div class="bg-surface/10 rounded-lg p-sm input-halo transition-all duration-200 border border-transparent">
+              <label class="block font-label-caps text-label-caps text-primary mb-[2px] uppercase">Site Name</label>
+              <input id="edit-name" class="w-full bg-transparent text-on-surface font-body-base text-body-base border-none p-0 focus:ring-0 placeholder-on-surface-variant/50" placeholder="e.g. GitHub" type="text"/>
+            </div>
+          </div>
+
+          <div class="glass-panel rounded-lg p-[1px]">
+            <div class="bg-surface/10 rounded-lg p-sm input-halo transition-all duration-200 border border-transparent">
+              <label class="block font-label-caps text-label-caps text-primary mb-[2px] uppercase">Domain</label>
+              <input id="edit-url" class="w-full bg-transparent text-on-surface font-body-base text-body-base border-none p-0 focus:ring-0 placeholder-on-surface-variant/50" placeholder="e.g. github.com" type="text"/>
+            </div>
+          </div>
+
+          <div class="glass-panel rounded-lg p-[1px]">
+            <div class="bg-surface/10 rounded-lg p-sm input-halo transition-all duration-200 border border-transparent">
+              <label class="block font-label-caps text-label-caps text-primary mb-[2px] uppercase">Username / Email</label>
+              <input id="edit-username" class="w-full bg-transparent text-on-surface font-body-base text-body-base border-none p-0 focus:ring-0 placeholder-on-surface-variant/50" placeholder="user@example.com" type="text"/>
+            </div>
+          </div>
+
+          <div class="glass-panel rounded-lg p-[1px]">
+            <div class="bg-surface/10 rounded-lg p-sm input-halo transition-all duration-200 border border-transparent">
+              <label class="block font-label-caps text-label-caps text-primary mb-[2px] uppercase">Password</label>
+              <input id="edit-password" class="w-full bg-transparent text-on-surface font-body-base text-body-base border-none p-0 focus:ring-0 placeholder-on-surface-variant/50" placeholder="••••••••" type="password"/>
+            </div>
+          </div>
+
+          <div class="flex gap-sm mt-md">
+            <button id="cancel-edit-btn" class="flex-1 bg-surface-variant text-on-surface py-sm rounded-lg hover:bg-outline-variant transition-colors" type="button">Cancel</button>
+            <button id="save-site-btn" class="flex-1 bg-[#3B82F6] text-white py-sm rounded-lg btn-primary-glow hover:bg-blue-400 transition-colors" type="button">Save</button>
+          </div>
+          <div id="edit-error" class="text-error text-center text-body-small hidden"></div>
+        </div>
       </section>
+      
     </main>
 
     <!-- Toast Notification -->
-    <div id="toast" class="toast hidden"></div>
+    <div id="toast" class="hidden absolute bottom-[70px] left-1/2 -translate-x-1/2 px-lg py-sm rounded-full text-white text-sm shadow-lg z-[100] transition-opacity duration-300"></div>
+
+    <!-- BottomNavBar (Optional, used in My Vault design) -->
+    <nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-md py-sm bg-surface/80 backdrop-blur-xl border-t border-outline-variant/20 shadow-[0_-4px_16px_rgba(0,0,0,0.1)]">
+      <button class="flex flex-col items-center justify-center bg-primary/20 text-primary rounded-xl p-sm active:scale-90 duration-200 min-w-[48px]">
+        <span class="material-symbols-outlined" data-weight="fill" style="font-variation-settings: 'FILL' 1;">vpn_key</span>
+      </button>
+      <button class="flex flex-col items-center justify-center text-on-surface-variant p-sm hover:text-primary transition-all active:scale-90 duration-200 min-w-[48px]">
+        <span class="material-symbols-outlined">settings</span>
+      </button>
+    </nav>
+
   </div>
 
   <script src="../lib/crypto.js"></script>

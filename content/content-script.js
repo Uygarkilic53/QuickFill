@@ -93,24 +93,29 @@ if (!window.quickFillInjected) {
   }
 
   // Auto-fill observer logic
-  let lastAttemptedUrl = window.location.href;
-  let hasAttemptedOnCurrentUrl = false;
+  // Use a WeakMap to track cooldowns per field so we don't spam requests,
+  // but DO allow re-filling after the cooldown if the field is cleared.
+  const fillCooldowns = new WeakMap();
+  const COOLDOWN_MS = 3000; // 3 seconds between autofill attempts per field
 
   function checkForLoginForms() {
-    if (window.location.href !== lastAttemptedUrl) {
-      lastAttemptedUrl = window.location.href;
-      hasAttemptedOnCurrentUrl = false;
-    }
-
-    if (hasAttemptedOnCurrentUrl) return;
-    
     const allInputs = Array.from(document.querySelectorAll('input'));
-    const passwordField = allInputs.find(input => input.type === 'password' && isVisible(input));
-    
-    if (passwordField && !passwordField.value) {
-      hasAttemptedOnCurrentUrl = true;
-      
+    const now = Date.now();
+
+    // Find all visible, empty password fields that aren't on cooldown
+    const emptyPasswordFields = allInputs.filter(input => {
+      if (input.type !== 'password' || !isVisible(input)) return false;
+      if (input.value) return false; // already has a value, skip
+      const lastAttempt = fillCooldowns.get(input) || 0;
+      return (now - lastAttempt) >= COOLDOWN_MS;
+    });
+
+    if (emptyPasswordFields.length > 0) {
+      // Set cooldown on all candidates so we don't re-request immediately
+      emptyPasswordFields.forEach(f => fillCooldowns.set(f, now));
+
       chrome.runtime.sendMessage({ action: "request_autofill", domain: window.location.hostname }, (response) => {
+        if (chrome.runtime.lastError) return; // extension context invalidated
         if (response && response.success && response.credentials) {
           fillFields(response.credentials);
         }
@@ -121,21 +126,23 @@ if (!window.quickFillInjected) {
   // Initial check on load
   setTimeout(checkForLoginForms, 500);
 
-  // Watch for dynamic forms (SPAs)
-  const observer = new MutationObserver((mutations) => {
-    // Only run if we haven't attempted or if URL changed
-    if (!hasAttemptedOnCurrentUrl || window.location.href !== lastAttemptedUrl) {
-      // Debounce slightly to avoid checking on every tiny DOM mutation
-      clearTimeout(window.quickFillTimeout);
-      window.quickFillTimeout = setTimeout(checkForLoginForms, 300);
-    }
+  // Watch for dynamic forms (SPAs or modals)
+  const observer = new MutationObserver(() => {
+    // Debounce slightly to avoid checking on every tiny DOM mutation
+    clearTimeout(window.quickFillTimeout);
+    window.quickFillTimeout = setTimeout(checkForLoginForms, 300);
   });
 
   if (document.body) {
-    observer.observe(document.body, { childList: true, subtree: true });
+    observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['style', 'class', 'type'] });
   } else {
     document.addEventListener('DOMContentLoaded', () => {
-      observer.observe(document.body, { childList: true, subtree: true });
+      observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['style', 'class', 'type'] });
     });
   }
+
+  // Periodic polling to catch cases where modals reopen without DOM mutations
+  // (e.g. toggling display via inline styles that don't trigger attribute observers,
+  //  or the field is the same DOM node reused by a framework)
+  setInterval(checkForLoginForms, 1500);
 }

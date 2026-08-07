@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     displaySites.forEach(site => {
       const li = document.createElement('li');
-      li.className = 'site-item';
+      li.className = 'glass-card rounded-lg p-sm flex items-center gap-sm overflow-hidden w-full';
       
       let domain = 'example.com';
       try { domain = new URL(site.url.startsWith('http') ? site.url : `https://${site.url}`).hostname; } catch(e){}
@@ -146,26 +146,28 @@ document.addEventListener('DOMContentLoaded', async () => {
       const faviconUrl = `https://www.google.com/s2/favicons?domain=${domain}&sz=32`;
 
       li.innerHTML = `
-        <img class="site-icon" src="${faviconUrl}" alt="" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22%23ccc%22/></svg>'">
-        <div class="site-info">
-          <span class="site-name">${escapeHTML(site.name)}</span>
-          <span class="site-domain">${escapeHTML(site.username)}</span>
+        <div class="w-[32px] h-[32px] bg-white rounded flex items-center justify-center flex-shrink-0">
+          <img class="w-[20px] h-[20px] object-contain" src="${faviconUrl}" alt="" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22%23ccc%22/></svg>'">
         </div>
-        <div class="site-actions">
-          <div style="display: flex; align-items: center; margin-right: 8px; gap: 4px;" title="Enable auto-fill for this site">
-            <label class="switch" style="transform: scale(0.7);">
+        <div class="flex-1 min-w-0">
+          <div class="font-headline-sm text-headline-sm text-on-surface truncate">${escapeHTML(site.name)}</div>
+          <div class="font-body-small text-body-small text-on-surface-variant truncate">${escapeHTML(site.username)}</div>
+        </div>
+        <div class="flex items-center gap-xs ml-auto shrink-0">
+          <div style="display: flex; align-items: center; justify-content: center; margin-right: 4px;" title="Enable auto-fill for this site">
+            <label class="switch" style="transform: scale(0.7); margin-bottom: 0;">
               <input type="checkbox" class="site-autofill-toggle" data-id="${site.id}" ${site.autoFill ? 'checked' : ''}>
               <span class="slider round"></span>
             </label>
           </div>
-          <button class="fill-btn icon-text-btn" data-id="${site.id}" title="Fill credentials">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-zap"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          <button class="fill-btn icon-btn p-xs flex items-center justify-center w-[28px] h-[28px] text-primary" data-id="${site.id}" title="Fill credentials">
+            <span class="material-symbols-outlined text-[18px]" data-weight="fill" style="font-variation-settings: 'FILL' 1;">login</span>
           </button>
-          <button class="edit-btn icon-text-btn" data-id="${site.id}" title="Edit">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
+          <button class="edit-btn icon-btn p-xs flex items-center justify-center w-[28px] h-[28px]" data-id="${site.id}" title="Edit">
+            <span class="material-symbols-outlined text-[18px]">edit</span>
           </button>
-          <button class="delete-btn icon-text-btn" data-id="${site.id}" title="Delete">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash-2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
+          <button class="delete-btn icon-btn p-xs flex items-center justify-center w-[28px] h-[28px] hover:text-error" data-id="${site.id}" title="Delete">
+            <span class="material-symbols-outlined text-[18px]">delete</span>
           </button>
         </div>
       `;
