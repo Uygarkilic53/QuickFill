@@ -3,8 +3,10 @@
 @tailwind utilities;
 
 @layer base {
-  body {
-    width: 360px;
+  html, body {
+    width: 360px !important;
+    min-width: 360px !important;
+    max-width: 360px !important;
     height: 480px; /* Specific height for this screen */
     margin: 0;
     overflow: hidden;
