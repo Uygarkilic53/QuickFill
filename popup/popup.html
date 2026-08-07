@@ -14,7 +14,7 @@
   <div class="ambient-bg"></div>
 
   <!-- App Container (Matches the body constraints from input.css) -->
-  <div id="app" class="relative w-full h-full flex flex-col z-10 overflow-hidden">
+  <div id="app" class="relative w-[360px] mx-auto h-full flex flex-col z-10 overflow-hidden">
     
     <!-- TopAppBar -->
     <header class="fixed top-0 w-full h-[48px] bg-surface/60 backdrop-blur-xl border-b border-outline-variant/20 shadow-sm flex justify-between items-center px-lg z-50">
@@ -29,10 +29,10 @@
       </div>
     </header>
 
-    <main class="flex-1 mt-[48px] overflow-y-auto px-lg py-md flex flex-col gap-md relative custom-scrollbar">
+    <main class="flex-1 mt-[48px] overflow-y-auto py-md flex flex-col relative custom-scrollbar w-full">
       
       <!-- View: Setup Master Password -->
-      <section id="view-setup" class="view hidden flex flex-col h-full justify-center">
+      <section id="view-setup" class="view hidden flex-col h-full justify-center w-full px-lg">
         <div class="mb-xl mt-sm text-center">
           <h2 class="font-display-md text-display-md text-on-surface mb-xs">Setup</h2>
           <p class="font-body-small text-body-small text-on-surface-variant">Create a master password to secure your vault.</p>
@@ -62,7 +62,7 @@
       </section>
 
       <!-- View: Unlock Vault -->
-      <section id="view-unlock" class="view hidden flex flex-col h-full justify-center items-center relative">
+      <section id="view-unlock" class="view hidden flex-col h-full justify-center items-center relative w-full px-lg">
         <div class="mb-xl flex flex-col items-center">
           <div class="w-16 h-16 rounded-full border border-primary/30 flex items-center justify-center mb-md glass-panel overflow-hidden">
             <span class="material-symbols-outlined text-primary text-3xl" data-icon="person">person</span>
@@ -86,23 +86,23 @@
       </section>
 
       <!-- View: Site List -->
-      <section id="view-list" class="view hidden pb-16">
-        <div class="flex items-center gap-sm mb-md">
+      <section id="view-list" class="view hidden pb-16 w-full px-lg">
+        <div class="flex items-center gap-sm mb-md w-full">
           <div class="relative flex-1">
             <span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">search</span>
             <input id="search-input" class="w-full glass-input rounded-lg py-xs pl-[32px] pr-sm font-body-base text-body-base placeholder:text-outline h-[32px]" placeholder="Search sites..." type="text"/>
           </div>
-          <button id="show-add-btn" class="w-[32px] h-[32px] flex items-center justify-center rounded-lg bg-primary/20 text-primary border border-primary/30 hover:bg-primary/30 transition-colors shadow-[0_0_12px_rgba(173,198,255,0.2)]">
+          <button id="show-add-btn" class="w-[32px] h-[32px] flex items-center justify-center rounded-lg bg-primary/20 text-primary border border-primary/30 hover:bg-primary/30 transition-colors shadow-[0_0_12px_rgba(173,198,255,0.2)] shrink-0">
             <span class="material-symbols-outlined text-[20px]">add</span>
           </button>
         </div>
-        <ul id="site-list" class="flex flex-col gap-md">
+        <ul id="site-list" class="flex flex-col gap-md w-full">
           <!-- Sites will be populated here -->
         </ul>
       </section>
 
       <!-- View: Add/Edit Site -->
-      <section id="view-edit" class="view hidden pb-16">
+      <section id="view-edit" class="view hidden pb-16 w-full px-lg">
         <div class="mb-md text-center">
           <h2 id="edit-title" class="font-display-md text-display-md text-on-surface mb-xs">Add Site</h2>
         </div>

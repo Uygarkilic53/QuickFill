@@ -749,8 +749,10 @@ input:where([type='file']):focus {
   outline: 1px auto -webkit-focus-ring-color;
 }
 
-body {
-  width: 360px;
+html, body {
+  width: 360px !important;
+  min-width: 360px !important;
+  max-width: 360px !important;
   height: 480px;
   /* Specific height for this screen */
   margin: 0;
@@ -825,6 +827,11 @@ body {
 
 .z-\[100\] {
   z-index: 100;
+}
+
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .mb-\[2px\] {
@@ -921,6 +928,10 @@ body {
 
 .w-\[32px\] {
   width: 32px;
+}
+
+.w-\[360px\] {
+  width: 360px;
 }
 
 .w-full {
