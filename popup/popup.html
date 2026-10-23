@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="dark" lang="en">
+<html class="dark" data-theme="dark" lang="en">
 <head>
   <meta charset="utf-8"/>
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -13,7 +13,7 @@
 
   <!-- App Container (Matches the body constraints from input.css) -->
   <div id="app" class="relative w-[360px] mx-auto h-full flex flex-col z-10 overflow-hidden">
-    
+
     <!-- TopAppBar -->
     <header class="fixed top-0 w-full h-[48px] bg-surface/60 backdrop-blur-xl border-b border-outline-variant/20 shadow-sm flex justify-between items-center px-lg z-50">
       <div class="flex items-center gap-sm">
@@ -21,38 +21,38 @@
         <span class="font-display-md text-display-md font-bold text-primary tracking-tight">QuickFill</span>
       </div>
       <div>
-        <button id="lock-btn" class="hover:bg-primary/10 transition-colors active:scale-95 duration-150 p-xs rounded-full flex items-center justify-center text-on-surface-variant hidden">
+        <button id="lock-btn" class="hover:bg-primary/10 transition-colors active:scale-95 duration-150 p-xs rounded-full flex items-center justify-center text-on-surface-variant hidden" data-i18n-title="lock.title" title="Lock vault">
           <span class="material-symbols-outlined" data-icon="lock" style="font-variation-settings: 'FILL' 0;">lock</span>
         </button>
       </div>
     </header>
 
     <main class="flex-1 mt-[48px] overflow-y-auto py-md flex flex-col relative custom-scrollbar w-full">
-      
+
       <!-- View: Setup Master Password -->
       <section id="view-setup" class="view hidden flex-col h-full justify-center w-full px-lg">
         <div class="mb-xl mt-sm text-center">
-          <h2 class="font-display-md text-display-md text-on-surface mb-xs">Setup</h2>
-          <p class="font-body-small text-body-small text-on-surface-variant">Create a master password to secure your vault.</p>
+          <h2 class="font-display-md text-display-md text-on-surface mb-xs" data-i18n="setup.title">Setup</h2>
+          <p class="font-body-small text-body-small text-on-surface-variant" data-i18n="setup.subtitle">Create a master password to secure your vault.</p>
         </div>
-        <form id="setup-form" class="flex flex-col gap-md" onsubmit="return false;">
+        <form id="setup-form" class="flex flex-col gap-md">
           <div class="glass-panel rounded-lg p-[1px] relative">
             <div class="bg-surface/10 rounded-lg p-sm input-halo transition-all duration-200 border border-transparent">
-              <label class="block font-label-caps text-label-caps text-primary mb-[2px] uppercase">Master Password</label>
+              <label class="block font-label-caps text-label-caps text-primary mb-[2px] uppercase" data-i18n="setup.master">Master Password</label>
               <div class="flex items-center">
-                <input id="setup-password" class="w-full bg-transparent text-on-surface font-body-base text-body-base border-none p-0 focus:ring-0 placeholder-on-surface-variant/50" placeholder="••••••••" required="" type="password"/>
+                <input id="setup-password" class="w-full bg-transparent text-on-surface font-body-base text-body-base border-none p-0 focus:ring-0 placeholder-on-surface-variant/50" data-i18n-placeholder="setup.master" placeholder="••••••••" required="" type="password"/>
               </div>
             </div>
           </div>
           <div class="glass-panel rounded-lg p-[1px] relative">
             <div class="bg-surface/10 rounded-lg p-sm input-halo transition-all duration-200 border border-transparent">
-              <label class="block font-label-caps text-label-caps text-primary mb-[2px] uppercase">Confirm Password</label>
+              <label class="block font-label-caps text-label-caps text-primary mb-[2px] uppercase" data-i18n="setup.confirm">Confirm Password</label>
               <div class="flex items-center">
-                <input id="setup-password-confirm" class="w-full bg-transparent text-on-surface font-body-base text-body-base border-none p-0 focus:ring-0 placeholder-on-surface-variant/50" placeholder="••••••••" required="" type="password"/>
+                <input id="setup-password-confirm" class="w-full bg-transparent text-on-surface font-body-base text-body-base border-none p-0 focus:ring-0 placeholder-on-surface-variant/50" data-i18n-placeholder="setup.confirm" placeholder="••••••••" required="" type="password"/>
               </div>
             </div>
           </div>
-          <button id="setup-btn" class="mt-xl w-full bg-[#3B82F6] hover:bg-blue-400 text-white font-headline-sm text-headline-sm py-md rounded-lg btn-primary-glow transition-all duration-200 active:scale-[0.98]" type="button">
+          <button id="setup-btn" class="mt-xl w-full bg-[#3B82F6] hover:bg-blue-400 text-white font-headline-sm text-headline-sm py-md rounded-lg btn-primary-glow transition-all duration-200 active:scale-[0.98]" type="button" data-i18n="setup.create">
             Create Vault
           </button>
           <div id="setup-error" class="text-error text-center text-body-small hidden"></div>
@@ -65,19 +65,20 @@
           <div class="w-16 h-16 rounded-full border border-primary/30 flex items-center justify-center mb-md glass-panel overflow-hidden">
             <span class="material-symbols-outlined text-primary text-3xl" data-icon="person">person</span>
           </div>
-          <h1 class="font-headline-sm text-headline-sm text-on-surface text-center mb-xs">Welcome Back</h1>
+          <h1 class="font-headline-sm text-headline-sm text-on-surface text-center mb-xs" data-i18n="unlock.welcome">Welcome Back</h1>
         </div>
         <div class="w-full glass-panel rounded-xl p-lg flex flex-col gap-lg">
-          <h2 class="font-headline-sm text-headline-sm text-on-surface text-center">Unlock Vault</h2>
+          <h2 class="font-headline-sm text-headline-sm text-on-surface text-center" data-i18n="unlock.title">Unlock Vault</h2>
           <div class="flex flex-col gap-xs relative group">
-            <label class="font-label-caps text-label-caps text-on-surface-variant absolute -top-2 left-3 bg-surface px-1 z-10" for="unlock-password">Master Password</label>
+            <label class="font-label-caps text-label-caps text-on-surface-variant absolute -top-2 left-3 bg-surface px-1 z-10" for="unlock-password" data-i18n="unlock.master">Master Password</label>
             <div class="relative w-full input-glow transition-all duration-200 rounded-lg border border-outline-variant/30 bg-surface-container/10">
               <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm pointer-events-none" data-icon="key">key</span>
-              <input id="unlock-password" class="w-full bg-transparent border-none text-on-surface font-body-mono text-body-mono pl-10 pr-10 py-sm rounded-lg focus:ring-0 placeholder:text-outline/50" placeholder="••••••••••••" type="password"/>
+              <input id="unlock-password" class="w-full bg-transparent border-none text-on-surface font-body-mono text-body-mono pl-10 pr-10 py-sm rounded-lg focus:ring-0 placeholder:text-outline/50" data-i18n-placeholder="unlock.master" placeholder="••••••••••••" type="password"/>
             </div>
           </div>
           <button id="unlock-btn" class="w-full bg-[#3B82F6] text-white font-headline-sm text-headline-sm py-sm rounded-lg glow-primary hover:bg-[#2563EB] transition-colors active:scale-95 duration-150 flex justify-center items-center gap-sm mt-sm">
-            Unlock <span class="material-symbols-outlined text-sm" data-icon="lock_open">lock_open</span>
+            <span id="unlock-btn-label" data-i18n="unlock.action">Unlock</span>
+            <span class="material-symbols-outlined text-sm" data-icon="lock_open">lock_open</span>
           </button>
           <div id="unlock-error" class="text-error text-center text-body-small hidden"></div>
         </div>
@@ -88,9 +89,12 @@
         <div class="flex items-center gap-sm mb-md w-full">
           <div class="relative flex-1">
             <span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">search</span>
-            <input id="search-input" class="w-full glass-input rounded-lg py-xs pl-[32px] pr-sm font-body-base text-body-base placeholder:text-outline h-[32px]" placeholder="Search sites..." type="text"/>
+            <input id="search-input" class="w-full glass-input rounded-lg py-xs pl-[32px] pr-sm font-body-base text-body-base placeholder:text-outline h-[32px]" data-i18n-placeholder="list.search" placeholder="Search sites..." type="text"/>
           </div>
-          <button id="show-add-btn" class="w-[32px] h-[32px] flex items-center justify-center rounded-lg bg-primary/20 text-primary border border-primary/30 hover:bg-primary/30 transition-colors shadow-[0_0_12px_rgba(173,198,255,0.2)] shrink-0">
+          <button id="generator-open-btn" class="w-[32px] h-[32px] flex items-center justify-center rounded-lg bg-surface-variant/60 text-on-surface-variant border border-outline-variant/30 hover:text-primary hover:border-primary/40 transition-colors shrink-0" data-i18n-title="list.generator" title="Password generator">
+            <span class="font-body-mono text-[13px] font-bold leading-none">Aa</span>
+          </button>
+          <button id="show-add-btn" class="w-[32px] h-[32px] flex items-center justify-center rounded-lg bg-primary/20 text-primary border border-primary/30 hover:bg-primary/30 transition-colors shadow-[0_0_12px_rgba(173,198,255,0.2)] shrink-0" data-i18n-title="list.add" title="Add site">
             <span class="material-symbols-outlined text-[20px]">add</span>
           </button>
         </div>
@@ -102,66 +106,320 @@
       <!-- View: Add/Edit Site -->
       <section id="view-edit" class="view hidden pb-16 w-full px-lg">
         <div class="mb-md text-center">
-          <h2 id="edit-title" class="font-display-md text-display-md text-on-surface mb-xs">Add Site</h2>
+          <h2 id="edit-title" class="font-display-md text-display-md text-on-surface mb-xs" data-i18n="edit.addTitle">Add Site</h2>
         </div>
         <input type="hidden" id="edit-id" />
         <div class="flex flex-col gap-md">
-          
+
           <div class="glass-panel rounded-lg p-[1px]">
             <div class="bg-surface/10 rounded-lg p-sm input-halo transition-all duration-200 border border-transparent">
-              <label class="block font-label-caps text-label-caps text-primary mb-[2px] uppercase">Site Name</label>
-              <input id="edit-name" class="w-full bg-transparent text-on-surface font-body-base text-body-base border-none p-0 focus:ring-0 placeholder-on-surface-variant/50" placeholder="e.g. GitHub" type="text"/>
+              <label class="block font-label-caps text-label-caps text-primary mb-[2px] uppercase" data-i18n="edit.name">Site Name</label>
+              <input id="edit-name" class="w-full bg-transparent text-on-surface font-body-base text-body-base border-none p-0 focus:ring-0 placeholder-on-surface-variant/50" data-i18n-placeholder="edit.namePlaceholder" placeholder="e.g. GitHub" type="text"/>
             </div>
           </div>
 
           <div class="glass-panel rounded-lg p-[1px]">
             <div class="bg-surface/10 rounded-lg p-sm input-halo transition-all duration-200 border border-transparent">
-              <label class="block font-label-caps text-label-caps text-primary mb-[2px] uppercase">Domain</label>
-              <input id="edit-url" class="w-full bg-transparent text-on-surface font-body-base text-body-base border-none p-0 focus:ring-0 placeholder-on-surface-variant/50" placeholder="e.g. github.com" type="text"/>
+              <label class="block font-label-caps text-label-caps text-primary mb-[2px] uppercase" data-i18n="edit.domain">Domain</label>
+              <input id="edit-url" class="w-full bg-transparent text-on-surface font-body-base text-body-base border-none p-0 focus:ring-0 placeholder-on-surface-variant/50" data-i18n-placeholder="edit.domainPlaceholder" placeholder="e.g. github.com" type="text"/>
             </div>
           </div>
 
           <div class="glass-panel rounded-lg p-[1px]">
             <div class="bg-surface/10 rounded-lg p-sm input-halo transition-all duration-200 border border-transparent">
-              <label class="block font-label-caps text-label-caps text-primary mb-[2px] uppercase">Username / Email</label>
-              <input id="edit-username" class="w-full bg-transparent text-on-surface font-body-base text-body-base border-none p-0 focus:ring-0 placeholder-on-surface-variant/50" placeholder="user@example.com" type="text"/>
+              <label class="block font-label-caps text-label-caps text-primary mb-[2px] uppercase" data-i18n="edit.username">Username / Email</label>
+              <input id="edit-username" class="w-full bg-transparent text-on-surface font-body-base text-body-base border-none p-0 focus:ring-0 placeholder-on-surface-variant/50" data-i18n-placeholder="edit.usernamePlaceholder" placeholder="user@example.com" type="text"/>
             </div>
           </div>
 
           <div class="glass-panel rounded-lg p-[1px]">
             <div class="bg-surface/10 rounded-lg p-sm input-halo transition-all duration-200 border border-transparent">
-              <label class="block font-label-caps text-label-caps text-primary mb-[2px] uppercase">Password</label>
-              <input id="edit-password" class="w-full bg-transparent text-on-surface font-body-base text-body-base border-none p-0 focus:ring-0 placeholder-on-surface-variant/50" placeholder="••••••••" type="password"/>
+              <label class="block font-label-caps text-label-caps text-primary mb-[2px] uppercase" data-i18n="edit.password">Password</label>
+              <div class="flex items-center gap-xs">
+                <input id="edit-password" class="w-full bg-transparent text-on-surface font-body-base text-body-base border-none p-0 focus:ring-0 placeholder-on-surface-variant/50" data-i18n-placeholder="edit.passwordPlaceholder" placeholder="••••••••" type="password"/>
+                <button id="edit-toggle-password" type="button" class="icon-btn p-xs flex items-center justify-center shrink-0" data-i18n-title="edit.showPassword" title="Show password">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+                <button id="edit-generate-btn" type="button" class="icon-btn p-xs flex items-center justify-center shrink-0" data-i18n-title="edit.generate" title="Generate password">
+                  <span class="font-body-mono text-[13px] font-bold leading-none">Aa</span>
+                </button>
+              </div>
+              <div class="mt-xs">
+                <div class="flex items-center justify-between gap-sm">
+                  <span class="font-body-small text-[11px] text-on-surface-variant" data-i18n="generator.strength">Strength</span>
+                  <span id="edit-strength-label" class="font-body-small text-[11px] text-on-surface-variant"></span>
+                </div>
+                <div class="qf-strength-track mt-xs">
+                  <div id="edit-strength-bar" class="qf-strength-bar"></div>
+                </div>
+              </div>
             </div>
           </div>
 
           <div class="flex gap-sm mt-md">
-            <button id="cancel-edit-btn" class="flex-1 bg-surface-variant text-on-surface py-sm rounded-lg hover:bg-outline-variant transition-colors" type="button">Cancel</button>
-            <button id="save-site-btn" class="flex-1 bg-[#3B82F6] text-white py-sm rounded-lg btn-primary-glow hover:bg-blue-400 transition-colors" type="button">Save</button>
+            <button id="cancel-edit-btn" class="flex-1 bg-surface-variant text-on-surface py-sm rounded-lg hover:bg-outline-variant transition-colors" type="button" data-i18n="common.cancel">Cancel</button>
+            <button id="save-site-btn" class="flex-1 bg-[#3B82F6] text-white py-sm rounded-lg btn-primary-glow hover:bg-blue-400 transition-colors" type="button" data-i18n="common.save">Save</button>
           </div>
           <div id="edit-error" class="text-error text-center text-body-small hidden"></div>
         </div>
       </section>
-      
+
+      <!-- View: Settings -->
+      <section id="view-settings" class="view hidden pb-16 w-full px-lg">
+        <div class="mb-md text-center">
+          <h2 class="font-display-md text-display-md text-on-surface" data-i18n="settings.title">Settings</h2>
+        </div>
+
+        <div id="settings-locked-note" class="hidden glass-panel rounded-lg p-sm mb-md items-center justify-between gap-sm">
+          <p class="font-body-small text-body-small text-on-surface-variant" data-i18n="settings.lockedNote">Unlock the vault to change the master password and manage auto-fill sites.</p>
+          <button id="settings-unlock-btn" class="shrink-0 bg-[#3B82F6] text-white text-xs px-sm py-xs rounded-lg" type="button" data-i18n="settings.unlock">Unlock vault</button>
+        </div>
+
+        <div class="flex flex-col gap-md">
+
+          <!-- Security -->
+          <section class="glass-panel rounded-lg p-md">
+            <h3 class="qf-settings-title" data-i18n="settings.security">Security</h3>
+            <div class="flex flex-col gap-sm mt-sm">
+              <div>
+                <label for="setting-autolock" class="block font-body-small text-body-small text-on-surface-variant mb-xs" data-i18n="settings.autoLock">Auto-lock after</label>
+                <select id="setting-autolock" class="glass-input qf-select w-full rounded-lg py-xs px-sm font-body-small text-body-small">
+                  <option value="0" data-i18n="options.never">Never</option>
+                  <option value="1" data-i18n="options.minutes1">1 minute</option>
+                  <option value="5" data-i18n="options.minutes5">5 minutes</option>
+                  <option value="15" data-i18n="options.minutes15">15 minutes</option>
+                  <option value="30" data-i18n="options.minutes30">30 minutes</option>
+                </select>
+              </div>
+              <div>
+                <label for="setting-clipboard" class="block font-body-small text-body-small text-on-surface-variant mb-xs" data-i18n="settings.clipboardClear">Clear clipboard after</label>
+                <select id="setting-clipboard" class="glass-input qf-select w-full rounded-lg py-xs px-sm font-body-small text-body-small">
+                  <option value="0" data-i18n="options.never">Never</option>
+                  <option value="5" data-i18n="options.seconds5">5 seconds</option>
+                  <option value="10" data-i18n="options.seconds10">10 seconds</option>
+                  <option value="30" data-i18n="options.seconds30">30 seconds</option>
+                </select>
+              </div>
+              <label class="qf-setting-row cursor-pointer">
+                <span data-i18n="settings.lockOnClose">Lock when popup closes</span>
+                <span class="switch shrink-0"><input id="setting-lock-on-close" type="checkbox"><span class="slider round"></span></span>
+              </label>
+              <label class="qf-setting-row cursor-pointer">
+                <span data-i18n="settings.requirePassword">Require master password to copy or reveal</span>
+                <span class="switch shrink-0"><input id="setting-require-password" type="checkbox"><span class="slider round"></span></span>
+              </label>
+              <button id="change-master-btn" class="w-full mt-xs border border-primary/30 text-primary rounded-lg py-xs font-body-small text-body-small hover:bg-primary/10 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" type="button" data-i18n="settings.changeMaster">Change master password</button>
+            </div>
+          </section>
+
+          <!-- Autofill -->
+          <section class="glass-panel rounded-lg p-md">
+            <h3 class="qf-settings-title" data-i18n="settings.autofill">Autofill</h3>
+            <div class="flex flex-col gap-sm mt-sm">
+              <label class="qf-setting-row cursor-pointer">
+                <span data-i18n="settings.globalAutofill">Enable auto-fill</span>
+                <span class="switch shrink-0"><input id="setting-autofill-enabled" type="checkbox"><span class="slider round"></span></span>
+              </label>
+              <div>
+                <label class="qf-setting-row cursor-pointer">
+                  <span data-i18n="settings.matchSubdomains">Allow subdomains</span>
+                  <span class="switch shrink-0"><input id="setting-match-subdomains" type="checkbox"><span class="slider round"></span></span>
+                </label>
+                <p class="font-body-small text-[11px] leading-4 text-on-surface-variant/80 mt-xs" data-i18n="settings.matchSubdomainsHint">When off, only the exact saved hostname matches.</p>
+              </div>
+              <label class="qf-setting-row cursor-pointer">
+                <span data-i18n="settings.showToast">Show notification after autofill</span>
+                <span class="switch shrink-0"><input id="setting-show-toast" type="checkbox"><span class="slider round"></span></span>
+              </label>
+              <div class="mt-xs">
+                <div class="qf-settings-title mb-xs" data-i18n="settings.enabledSites">Sites with auto-fill enabled</div>
+                <ul id="settings-autofill-list" class="flex flex-col gap-xs"></ul>
+              </div>
+            </div>
+          </section>
+
+          <!-- Vault & data -->
+          <section class="glass-panel rounded-lg p-md">
+            <h3 class="qf-settings-title" data-i18n="settings.vaultData">Vault &amp; data</h3>
+            <div class="grid grid-cols-2 gap-sm mt-sm">
+              <div class="rounded-lg bg-surface-container/40 p-sm">
+                <div class="font-label-caps text-label-caps text-on-surface-variant uppercase" data-i18n="settings.entries">Entries</div>
+                <div id="stat-entries" class="font-headline-sm text-headline-sm text-on-surface">—</div>
+              </div>
+              <div class="rounded-lg bg-surface-container/40 p-sm">
+                <div class="font-label-caps text-label-caps text-on-surface-variant uppercase" data-i18n="settings.lastExport">Last backup</div>
+                <div id="stat-last-export" class="font-body-small text-body-small text-on-surface mt-xs">—</div>
+              </div>
+            </div>
+            <div class="flex flex-col gap-sm mt-sm">
+              <button id="export-btn" class="w-full border border-outline-variant/40 text-on-surface rounded-lg py-xs font-body-small text-body-small hover:bg-surface-variant/40 transition-colors" type="button" data-i18n="settings.export">Download encrypted backup</button>
+              <button id="import-btn" class="w-full border border-outline-variant/40 text-on-surface rounded-lg py-xs font-body-small text-body-small hover:bg-surface-variant/40 transition-colors" type="button" data-i18n="settings.import">Restore from backup</button>
+              <input id="import-file" type="file" accept="application/json,.json" class="hidden">
+              <button id="reset-btn" class="w-full border border-error/30 text-error rounded-lg py-xs font-body-small text-body-small hover:bg-error/10 transition-colors" type="button" data-i18n="settings.reset">Reset vault</button>
+            </div>
+          </section>
+
+          <!-- Appearance -->
+          <section class="glass-panel rounded-lg p-md">
+            <h3 class="qf-settings-title" data-i18n="settings.appearance">Appearance</h3>
+            <div class="grid grid-cols-2 gap-sm mt-sm">
+              <div>
+                <span class="block font-body-small text-body-small text-on-surface-variant mb-xs" data-i18n="settings.theme">Theme</span>
+                <button id="setting-theme-toggle" class="qf-theme-toggle w-full" type="button" aria-pressed="false" title="Toggle theme">
+                  <span class="qf-theme-toggle-thumb" aria-hidden="true"></span>
+                  <span class="qf-theme-toggle-icon qf-theme-sun" aria-hidden="true">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+                  </span>
+                  <span class="qf-theme-toggle-icon qf-theme-moon" aria-hidden="true">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                  </span>
+                </button>
+              </div>
+              <div>
+                <label for="setting-language" class="block font-body-small text-body-small text-on-surface-variant mb-xs" data-i18n="settings.language">Language</label>
+                <select id="setting-language" class="glass-input qf-select w-full rounded-lg py-xs px-sm font-body-small text-body-small">
+                  <option value="en">English</option>
+                  <option value="tr">Türkçe</option>
+                </select>
+              </div>
+            </div>
+          </section>
+
+          <!-- About -->
+          <section class="glass-panel rounded-lg p-md">
+            <h3 class="qf-settings-title" data-i18n="settings.about">About</h3>
+            <div class="flex flex-col gap-xs mt-sm font-body-small text-body-small text-on-surface-variant">
+              <div class="qf-setting-row">
+                <span data-i18n="settings.version">Version</span>
+                <span id="about-version">1.0</span>
+              </div>
+              <div class="qf-setting-row">
+                <span data-i18n="settings.license">License</span>
+                <button type="button" class="qf-link" data-external="https://github.com/Uygarkilic53/signinautomation/blob/main/LICENSE">ISC</button>
+              </div>
+              <button type="button" class="text-left qf-link" data-external="https://github.com/Uygarkilic53/signinautomation" data-i18n="settings.github">GitHub repository</button>
+              <button type="button" class="text-left qf-link" data-external="https://github.com/Uygarkilic53/signinautomation/blob/main/PRIVACY.md" data-i18n="settings.privacy">Privacy policy</button>
+              <div class="mt-xs">
+                <div class="qf-settings-title" data-i18n="settings.shortcuts">Keyboard shortcuts</div>
+                <div class="qf-setting-row mt-xs"><span data-i18n="settings.shortcutOpen">Open popup</span><kbd class="rounded bg-surface-variant px-xs py-[1px] text-[10px]">Alt+Shift+Q</kbd></div>
+                <div class="qf-setting-row"><span data-i18n="settings.shortcutFill">Fill current site</span><kbd class="rounded bg-surface-variant px-xs py-[1px] text-[10px]">Alt+Shift+F</kbd></div>
+                <p class="text-[11px] leading-4 text-on-surface-variant/80 mt-xs" data-i18n="settings.shortcutHint">Change shortcuts at chrome://extensions/shortcuts</p>
+              </div>
+              <div class="mt-xs">
+                <div class="qf-settings-title" data-i18n="settings.permissions">Permissions</div>
+                <p class="text-[11px] leading-4 text-on-surface-variant/80 mt-xs" data-i18n="settings.permissionsText">QuickFill requests storage, activeTab, scripting, alarms, offscreen, and clipboard access, and runs a content script on all sites to detect login forms. Favicons are loaded from Google's favicon service. Nothing is sent anywhere else.</p>
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+
     </main>
 
     <!-- Toast Notification -->
     <div id="toast" class="hidden absolute bottom-[70px] left-1/2 -translate-x-1/2 px-lg py-sm rounded-full text-white text-sm shadow-lg z-[100] transition-opacity duration-300"></div>
 
-    <!-- BottomNavBar (Optional, used in My Vault design) -->
+    <!-- BottomNavBar -->
     <nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-md py-sm bg-surface/80 backdrop-blur-xl border-t border-outline-variant/20 shadow-[0_-4px_16px_rgba(0,0,0,0.1)]">
-      <button class="flex flex-col items-center justify-center bg-primary/20 text-primary rounded-xl p-sm active:scale-90 duration-200 min-w-[48px]">
+      <button id="nav-vault-btn" class="flex flex-col items-center justify-center bg-primary/20 text-primary rounded-xl p-sm active:scale-90 duration-200 min-w-[48px]" type="button" data-i18n-aria-label="nav.vault" aria-label="Vault">
         <span class="material-symbols-outlined" data-weight="fill" style="font-variation-settings: 'FILL' 1;">vpn_key</span>
       </button>
-      <button class="flex flex-col items-center justify-center text-on-surface-variant p-sm hover:text-primary transition-all active:scale-90 duration-200 min-w-[48px]">
+      <button id="nav-settings-btn" class="flex flex-col items-center justify-center text-on-surface-variant p-sm hover:text-primary transition-all active:scale-90 duration-200 min-w-[48px]" type="button" data-i18n-aria-label="settings.title" aria-label="Settings">
         <span class="material-symbols-outlined">settings</span>
       </button>
     </nav>
 
   </div>
 
+  <!-- Modal: Re-authentication -->
+  <div id="modal-reauth" class="qf-modal hidden">
+    <div class="qf-modal-panel glass-panel rounded-xl p-lg">
+      <h3 class="font-headline-sm text-headline-sm text-on-surface" data-i18n="reauth.title">Confirm master password</h3>
+      <p class="font-body-small text-body-small text-on-surface-variant mt-xs" data-i18n="reauth.message">Enter your master password to continue.</p>
+      <input id="reauth-password" type="password" class="glass-input w-full rounded-lg py-sm px-sm mt-md font-body-mono text-body-mono" data-i18n-placeholder="setup.master" placeholder="Master Password" autocomplete="off">
+      <div id="reauth-error" class="text-error text-body-small hidden mt-xs" data-i18n="reauth.error">Incorrect password.</div>
+      <div class="flex gap-sm mt-md">
+        <button id="reauth-cancel" type="button" class="flex-1 bg-surface-variant text-on-surface py-xs rounded-lg hover:bg-outline-variant transition-colors text-body-small" data-i18n="common.cancel">Cancel</button>
+        <button id="reauth-confirm" type="button" class="flex-1 bg-[#3B82F6] text-white py-xs rounded-lg hover:bg-blue-400 transition-colors text-body-small" data-i18n="reauth.action">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Change master password -->
+  <div id="modal-change-master" class="qf-modal hidden">
+    <div class="qf-modal-panel glass-panel rounded-xl p-lg">
+      <h3 class="font-headline-sm text-headline-sm text-on-surface" data-i18n="master.title">Change master password</h3>
+      <div class="flex flex-col gap-sm mt-md">
+        <input id="master-current" type="password" class="glass-input w-full rounded-lg py-sm px-sm font-body-mono text-body-mono" data-i18n-placeholder="master.current" placeholder="Current password" autocomplete="off">
+        <input id="master-new" type="password" class="glass-input w-full rounded-lg py-sm px-sm font-body-mono text-body-mono" data-i18n-placeholder="master.new" placeholder="New password" autocomplete="off">
+        <input id="master-confirm" type="password" class="glass-input w-full rounded-lg py-sm px-sm font-body-mono text-body-mono" data-i18n-placeholder="master.confirm" placeholder="Confirm new password" autocomplete="off">
+      </div>
+      <div id="master-error" class="text-error text-body-small hidden mt-xs"></div>
+      <div class="flex gap-sm mt-md">
+        <button id="master-cancel" type="button" class="flex-1 bg-surface-variant text-on-surface py-xs rounded-lg hover:bg-outline-variant transition-colors text-body-small" data-i18n="common.cancel">Cancel</button>
+        <button id="master-save" type="button" class="flex-1 bg-[#3B82F6] text-white py-xs rounded-lg hover:bg-blue-400 transition-colors text-body-small" data-i18n="master.action">Change password</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Password generator -->
+  <div id="modal-generator" class="qf-modal hidden">
+    <div class="qf-modal-panel glass-panel rounded-xl p-lg">
+      <h3 class="font-headline-sm text-headline-sm text-on-surface" data-i18n="generator.title">Password generator</h3>
+      <input id="generator-output" type="text" readonly class="glass-input w-full rounded-lg py-sm px-sm mt-md font-body-mono text-body-mono" autocomplete="off">
+      <div class="mt-sm">
+        <div class="flex items-center justify-between gap-sm">
+          <span class="font-body-small text-[11px] text-on-surface-variant" data-i18n="generator.strength">Strength</span>
+          <span id="generator-strength-label" class="font-body-small text-[11px] text-on-surface-variant"></span>
+        </div>
+        <div class="qf-strength-track mt-xs">
+          <div id="generator-strength-bar" class="qf-strength-bar"></div>
+        </div>
+      </div>
+      <div class="mt-md">
+        <label for="generator-length" class="qf-setting-row">
+          <span data-i18n="generator.length">Length</span>
+          <span id="generator-length-value">20</span>
+        </label>
+        <input id="generator-length" type="range" min="8" max="64" value="20" class="w-full mt-xs accent-[#3B82F6]">
+      </div>
+      <div class="grid grid-cols-2 gap-xs mt-sm font-body-small text-body-small text-on-surface-variant">
+        <label class="flex items-center gap-xs cursor-pointer"><input id="gen-upper" type="checkbox" checked class="rounded border-outline-variant bg-surface-container text-primary focus:ring-primary"><span data-i18n="generator.uppercase">Uppercase</span></label>
+        <label class="flex items-center gap-xs cursor-pointer"><input id="gen-lower" type="checkbox" checked class="rounded border-outline-variant bg-surface-container text-primary focus:ring-primary"><span data-i18n="generator.lowercase">Lowercase</span></label>
+        <label class="flex items-center gap-xs cursor-pointer"><input id="gen-numbers" type="checkbox" checked class="rounded border-outline-variant bg-surface-container text-primary focus:ring-primary"><span data-i18n="generator.numbers">Numbers</span></label>
+        <label class="flex items-center gap-xs cursor-pointer"><input id="gen-symbols" type="checkbox" checked class="rounded border-outline-variant bg-surface-container text-primary focus:ring-primary"><span data-i18n="generator.symbols">Symbols</span></label>
+      </div>
+      <div id="generator-error" class="text-error text-body-small hidden mt-xs" data-i18n="generator.errorCharset">Select at least one character type.</div>
+      <div class="flex gap-sm mt-md">
+        <button id="generator-regenerate" type="button" class="flex-1 bg-surface-variant text-on-surface py-xs rounded-lg hover:bg-outline-variant transition-colors text-body-small" data-i18n="generator.regenerate">Regenerate</button>
+        <button id="generator-copy" type="button" class="flex-1 bg-[#3B82F6] text-white py-xs rounded-lg hover:bg-blue-400 transition-colors text-body-small" data-i18n="common.copy">Copy</button>
+      </div>
+      <div class="flex gap-sm mt-sm">
+        <button id="generator-use" type="button" class="flex-1 border border-primary/40 text-primary py-xs rounded-lg hover:bg-primary/10 transition-colors text-body-small hidden" data-i18n="generator.use">Use password</button>
+        <button id="generator-close" type="button" class="flex-1 bg-surface-variant text-on-surface py-xs rounded-lg hover:bg-outline-variant transition-colors text-body-small" data-i18n="common.close">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Reset vault -->
+  <div id="modal-reset" class="qf-modal hidden">
+    <div class="qf-modal-panel glass-panel rounded-xl p-lg">
+      <h3 class="font-headline-sm text-headline-sm text-error" data-i18n="reset.title">Reset vault</h3>
+      <p class="font-body-small text-body-small text-on-surface-variant mt-xs" data-i18n="reset.warning">This permanently deletes every saved credential. It cannot be undone.</p>
+      <label for="reset-confirm-input" class="block font-body-small text-body-small text-on-surface-variant mt-md" data-i18n="reset.type">Type DELETE to confirm</label>
+      <input id="reset-confirm-input" type="text" class="glass-input w-full rounded-lg py-sm px-sm mt-xs font-body-mono text-body-mono" placeholder="DELETE" autocomplete="off">
+      <div id="reset-error" class="text-error text-body-small hidden mt-xs" data-i18n="reset.error">Type DELETE exactly to confirm.</div>
+      <div class="flex gap-sm mt-md">
+        <button id="reset-cancel" type="button" class="flex-1 bg-surface-variant text-on-surface py-xs rounded-lg hover:bg-outline-variant transition-colors text-body-small" data-i18n="common.cancel">Cancel</button>
+        <button id="reset-confirm" type="button" class="flex-1 bg-error text-on-error py-xs rounded-lg hover:opacity-90 transition-opacity text-body-small" data-i18n="reset.action">Reset vault</button>
+      </div>
+    </div>
+  </div>
+
   <script src="../lib/crypto.js"></script>
   <script src="../lib/storage.js"></script>
+  <script src="../lib/settings.js"></script>
+  <script src="i18n.js"></script>
   <script src="popup.js"></script>
 </body>
 </html>

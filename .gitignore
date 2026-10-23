@@ -1,0 +1,12 @@
+.agents
+AGENTS.md
+node_modules/
+todo.txt
+skills-lock.json
+HOW_IT_WORKS.md
+/docs
+.env
+.env.*
+*.log
+.DS_Store
+Thumbs.db

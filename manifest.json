@@ -3,12 +3,29 @@
   "name": "QuickFill",
   "version": "1.0",
   "description": "Securely stores login credentials and autofills them with one click.",
+  "minimum_chrome_version": "109",
   "permissions": [
     "storage",
     "activeTab",
     "scripting",
-    "alarms"
+    "alarms",
+    "offscreen",
+    "clipboardWrite"
   ],
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Alt+Shift+Q"
+      },
+      "description": "Open QuickFill"
+    },
+    "fill_active": {
+      "suggested_key": {
+        "default": "Alt+Shift+F"
+      },
+      "description": "Fill the login form on the current site"
+    }
+  },
   "icons": {
     "16": "images/icon.png",
     "32": "images/icon.png",

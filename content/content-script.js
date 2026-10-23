@@ -7,12 +7,50 @@ if (!window.quickFillInjected) {
   chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.action === "do_fill") {
       const result = fillFields(message.credentials);
+      if (result && message.ui && message.ui.showToast) {
+        showFillToast(message.ui.lang);
+      }
       sendResponse({ success: result });
+      return true;
     }
-    return true;
   });
 
+  function showFillToast(lang) {
+    const existing = document.getElementById('quickfill-page-toast');
+    if (existing) existing.remove();
+
+    const toast = document.createElement('div');
+    toast.id = 'quickfill-page-toast';
+    toast.textContent = lang === 'tr'
+      ? 'QuickFill kimlik bilgilerini doldurdu'
+      : 'QuickFill filled your credentials';
+    toast.style.cssText = [
+      'position:fixed',
+      'bottom:20px',
+      'left:50%',
+      'transform:translateX(-50%)',
+      'z-index:2147483647',
+      'background:rgba(11,19,38,0.95)',
+      'color:#dae2fd',
+      'border:1px solid rgba(173,198,255,0.35)',
+      'border-radius:9999px',
+      'padding:8px 16px',
+      'font:13px/1.4 system-ui,-apple-system,sans-serif',
+      'box-shadow:0 8px 24px rgba(0,0,0,0.35)',
+      'pointer-events:none',
+      'opacity:0',
+      'transition:opacity 150ms ease'
+    ].join(';');
+    document.documentElement.appendChild(toast);
+    requestAnimationFrame(() => { toast.style.opacity = '1'; });
+    setTimeout(() => {
+      toast.style.opacity = '0';
+      setTimeout(() => toast.remove(), 200);
+    }, 2200);
+  }
+
   function fillFields(credentials) {
+    if (!credentials) return false;
     let filledPassword = false;
 
     // Helper to securely set value and dispatch events for frameworks
@@ -20,7 +58,7 @@ if (!window.quickFillInjected) {
       const valueSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, "value")?.set;
       const prototypeSetter = Object.getOwnPropertyDescriptor(Object.getPrototypeOf(element), "value")?.set;
       
-      if (valueSetter && valueSetter !== prototypeSetter) {
+      if (valueSetter && prototypeSetter && valueSetter !== prototypeSetter) {
         prototypeSetter.call(element, value);
       } else if (valueSetter) {
         valueSetter.call(element, value);
@@ -117,7 +155,10 @@ if (!window.quickFillInjected) {
       chrome.runtime.sendMessage({ action: "request_autofill", domain: window.location.hostname }, (response) => {
         if (chrome.runtime.lastError) return; // extension context invalidated
         if (response && response.success && response.credentials) {
-          fillFields(response.credentials);
+          const filled = fillFields(response.credentials);
+          if (filled && response.ui && response.ui.showToast) {
+            showFillToast(response.ui.lang);
+          }
         }
       });
     }
