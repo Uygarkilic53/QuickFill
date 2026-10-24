@@ -808,6 +808,10 @@ html, body {
   left: 8px;
 }
 
+.right-1 {
+  right: 0.25rem;
+}
+
 .top-0 {
   top: 0px;
 }
@@ -1152,10 +1156,6 @@ html, body {
   background-color: rgb(var(--qf-surface-variant) / var(--tw-bg-opacity, 1));
 }
 
-.bg-surface-variant\/60 {
-  background-color: rgb(var(--qf-surface-variant) / 0.6);
-}
-
 .bg-surface\/10 {
   background-color: rgb(var(--qf-surface) / 0.1);
 }
@@ -1271,6 +1271,10 @@ html, body {
 
 .pl-\[32px\] {
   padding-left: 32px;
+}
+
+.pl-sm {
+  padding-left: 8px;
 }
 
 .pr-10 {
@@ -2109,10 +2113,6 @@ input:checked + .slider:before {
 
 .hover\:border-error\/40:hover {
   border-color: rgb(var(--qf-error) / 0.4);
-}
-
-.hover\:border-primary\/40:hover {
-  border-color: rgb(var(--qf-primary) / 0.4);
 }
 
 .hover\:bg-\[\#2563EB\]:hover {

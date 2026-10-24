@@ -88,6 +88,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     masterCurrent: document.getElementById('master-current'),
     masterNew: document.getElementById('master-new'),
     masterConfirm: document.getElementById('master-confirm'),
+    masterCurrentToggle: document.getElementById('master-current-toggle'),
+    masterNewToggle: document.getElementById('master-new-toggle'),
+    masterConfirmToggle: document.getElementById('master-confirm-toggle'),
     masterError: document.getElementById('master-error'),
     masterCancel: document.getElementById('master-cancel'),
     masterSave: document.getElementById('master-save'),
@@ -640,11 +643,25 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
+  function applyPasswordVisibility(input, button, revealed) {
+    input.type = revealed ? 'text' : 'password';
+    button.innerHTML = revealed ? SVG_EYE_OFF : SVG_EYE;
+    const labelKey = revealed ? 'edit.hidePassword' : 'edit.showPassword';
+    button.setAttribute('data-i18n-title', labelKey);
+    button.setAttribute('data-i18n-aria-label', labelKey);
+    button.setAttribute('title', t(labelKey));
+    button.setAttribute('aria-label', t(labelKey));
+    button.setAttribute('aria-pressed', String(revealed));
+  }
+
   function resetEditPasswordVisibility() {
-    dom.editPassword.type = 'password';
-    dom.editTogglePassword.innerHTML = SVG_EYE;
-    dom.editTogglePassword.setAttribute('title', t('edit.showPassword'));
-    dom.editTogglePassword.setAttribute('data-i18n-title', 'edit.showPassword');
+    applyPasswordVisibility(dom.editPassword, dom.editTogglePassword, false);
+  }
+
+  function resetMasterVisibility() {
+    applyPasswordVisibility(dom.masterCurrent, dom.masterCurrentToggle, false);
+    applyPasswordVisibility(dom.masterNew, dom.masterNewToggle, false);
+    applyPasswordVisibility(dom.masterConfirm, dom.masterConfirmToggle, false);
   }
 
   function clearEditPassword() {
@@ -658,6 +675,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     dom.masterNew.value = '';
     dom.masterConfirm.value = '';
     dom.masterError.classList.add('hidden');
+    resetMasterVisibility();
   }
 
   function editSite(id) {
@@ -1118,17 +1136,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       const ok = await requestReauth();
       if (!ok) return;
     }
-    if (showing) {
-      dom.editPassword.type = 'password';
-      dom.editTogglePassword.innerHTML = SVG_EYE;
-      dom.editTogglePassword.setAttribute('data-i18n-title', 'edit.showPassword');
-      dom.editTogglePassword.setAttribute('title', t('edit.showPassword'));
-    } else {
-      dom.editPassword.type = 'text';
-      dom.editTogglePassword.innerHTML = SVG_EYE_OFF;
-      dom.editTogglePassword.setAttribute('data-i18n-title', 'edit.hidePassword');
-      dom.editTogglePassword.setAttribute('title', t('edit.hidePassword'));
-    }
+    applyPasswordVisibility(dom.editPassword, dom.editTogglePassword, !showing);
   });
 
   dom.editGenerateBtn.addEventListener('click', () => openGenerator('edit'));
@@ -1169,6 +1177,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
     clearMasterFields();
     openModal(dom.modalChangeMaster);
+  });
+
+  [
+    [dom.masterCurrent, dom.masterCurrentToggle],
+    [dom.masterNew, dom.masterNewToggle],
+    [dom.masterConfirm, dom.masterConfirmToggle]
+  ].forEach(([input, toggle]) => {
+    toggle.addEventListener('click', () => {
+      applyPasswordVisibility(input, toggle, input.type === 'password');
+      input.focus({ preventScroll: true });
+    });
   });
 
   dom.masterCancel.addEventListener('click', () => {
