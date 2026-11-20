@@ -433,6 +433,9 @@
     background: var(--qf-icon-hover-bg);
     border-radius: 4px;
   }
+  .chevron-icon {
+    transition: transform 0.2s ease;
+  }
   .hidden {
     display: none !important;
   }
