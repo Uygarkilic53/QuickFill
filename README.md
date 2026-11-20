@@ -19,7 +19,7 @@ QuickFill is a lightweight password manager and login autofill extension for Goo
 - **Manual fill** — click the fill button on an entry to insert the username and password into the current tab's login form, including forms inside iframes.
 - **Optional auto-fill** — enable the per-site toggle and QuickFill will fill visible, empty password fields when a matching login form appears, including forms injected later by single-page apps or modals.
 - **Domain detection and favicons** — the current tab's hostname is pre-filled when adding an entry, and site icons are loaded for the list.
-- **Open site, copy, and generate** — open a saved site in a new tab, copy the username or password, and generate strong passwords from the list or the add/edit form.
+- **Open site, copy, and generate** — open a saved site in a new tab, copy the username or password, and generate strong passwords from Settings > Security or the add/edit form.
 - **Encrypted backup** — export the encrypted vault as JSON and restore it later without exposing plaintext credentials.
 - **Themes and languages** — switch between light and dark with the sun/moon toggle, plus English and Turkish UI. The initial default follows your system preference.
 - **No auto-submit** — QuickFill fills fields but never submits a form.
@@ -66,7 +66,7 @@ QuickFill requires Chrome 109 or newer.
    - press `Alt+Shift+F` to fill the current site, or
    - enable the auto-fill toggle for that entry and reload/open the login page.
 4. **Manage entries** — use the search box to filter by name, URL, or username, copy the username or password, open the saved site, edit an entry, or delete it.
-5. **Settings** — open the settings tab to change the master password, auto-lock and clipboard timeouts, auto-fill behavior, theme, and language; manage sites with auto-fill enabled; export or restore an encrypted backup; or reset the vault.
+5. **Settings** — open the settings tab to change the master password, generate a password, adjust auto-lock and clipboard timeouts, auto-fill behavior, theme, and language; manage sites with auto-fill enabled; export or restore an encrypted backup; or reset the vault. The master-password fields can be shown or hidden individually.
 6. **Lock the vault** — click the lock icon in the popup header. You will need the master password to unlock it again.
 
 Enabling auto-fill for an entry turns it off for other entries with the same host.
@@ -93,6 +93,7 @@ Shortcuts can be changed at `chrome://extensions/shortcuts`.
 | `lib/crypto.js` | PBKDF2 key derivation and AES-GCM encrypt/decrypt helpers. |
 | `lib/storage.js` | Promise wrappers around `chrome.storage.local` and `chrome.storage.session`. |
 | `lib/settings.js` | Settings defaults, validation, and hostname matching. |
+| `docs/` | Project overview, roadmap, and implementation walkthrough. |
 | `images/` | Extension icon and screenshots. |
 | `PRIVACY.md` | Privacy policy and network-request disclosure. |
 | `LICENSE` | ISC license. |
